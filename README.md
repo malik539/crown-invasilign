@@ -16,7 +16,7 @@ Dedicated Google Ads landing page for the **$1,500 OFF Invisalign + Free Consult
 3. What to Expect During Your Initial Invisalign Consultation (30 minutes, 5 approved items, compact comfort amenities)
 4. Why Invisalign at Crown Dental Care (aligner image split layout, approved copy)
 5. Meet Dr. Thy Nguyen ("Dr. T") — approved bio and credentials
-6. Reviews (Google 5.0 asset from the source, Winnie T. and Alexandria T., team photo)
+6. Reviews — Google 4.9 (696 reviews) badge and an auto-scrolling ticker of 10 verbatim Google reviews (pauses on hover/focus, has a Pause button, becomes a swipeable row under `prefers-reduced-motion`)
 7. Final offer summary + location card + responsive Google Business Profile map
 8. Footer and mobile sticky CTA (Call Now / Claim $1,500 Off)
 

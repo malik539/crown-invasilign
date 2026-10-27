@@ -207,19 +207,35 @@
     .creds svg{flex:none;color:var(--gold-deep);margin-top:.1rem}
     .doc-name{font-family:var(--font-display);font-size:1.1rem;color:var(--gold-deep);font-weight:700;margin:0 0 .25rem}
 
-    /* Reviews */
-    .reviews-grid{display:grid;gap:1.25rem;grid-template-columns:1fr}
-    @media (min-width:860px){.reviews-grid{grid-template-columns:1.1fr 1fr 1fr}}
-    .review{background:#fff;border:1px solid var(--line);border-radius:var(--radius);padding:1.6rem;box-shadow:var(--shadow-sm);display:flex;flex-direction:column;gap:1rem}
-    .review .stars{color:#f29d12;letter-spacing:.1em;font-size:1rem}
-    .review blockquote{margin:0;font-size:1rem;color:var(--ink);line-height:1.6;flex:1}
-    .review cite{font-style:normal;font-weight:800;color:var(--navy)}
-    .review cite small{display:block;font-weight:600;color:var(--muted);font-size:.8rem}
-    .team-card{position:relative;border-radius:var(--radius);overflow:hidden;box-shadow:var(--shadow-sm);min-height:260px}
-    .team-card img{width:100%;height:100%;object-fit:cover;position:absolute;inset:0}
-    .team-card figcaption{position:relative;z-index:1;margin-top:auto;background:linear-gradient(to top,rgba(2,43,66,.92),rgba(2,43,66,0));color:#fff;padding:3rem 1.25rem 1.1rem;font-weight:700;font-size:.95rem;height:100%;display:flex;align-items:flex-end}
-    .google-badge{display:flex;align-items:center;justify-content:center;gap:1rem;margin:0 auto 2rem}
-    .google-badge img{width:150px;height:auto}
+    /* Reviews ticker */
+    .rating{display:inline-flex;align-items:center;gap:.7rem;background:#fff;border:1px solid var(--line);border-radius:999px;padding:.55rem 1.1rem;box-shadow:var(--shadow-sm);font-weight:800;color:var(--navy);margin:0 auto 2rem;text-decoration:none}
+    .rating:hover{border-color:var(--navy)}
+    .g-word{font-family:"Product Sans",Arial,sans-serif;font-weight:700;font-size:1.25rem;letter-spacing:-.02em}
+    .g-word span:nth-child(1){color:#4285f4}.g-word span:nth-child(2){color:#ea4335}.g-word span:nth-child(3){color:#fbbc05}.g-word span:nth-child(4){color:#4285f4}.g-word span:nth-child(5){color:#34a853}.g-word span:nth-child(6){color:#ea4335}
+    .rating .score{font-size:1.2rem}
+    .rating .count{color:var(--muted);font-weight:600;font-size:.9rem}
+    .stars{display:inline-block;font-size:1rem;letter-spacing:.08em;line-height:1;background:linear-gradient(90deg,#f6a40c var(--fill,100%),#d9dee4 var(--fill,100%));-webkit-background-clip:text;background-clip:text;color:transparent;font-family:Arial,sans-serif}
+    .ticker-wrap{position:relative;width:100vw;margin-left:calc(50% - 50vw);overflow:hidden;padding:.75rem 0 1rem;-webkit-mask-image:linear-gradient(90deg,transparent,#000 6%,#000 94%,transparent);mask-image:linear-gradient(90deg,transparent,#000 6%,#000 94%,transparent)}
+    .ticker{display:flex;gap:1.1rem;width:max-content;padding-left:1.1rem;animation:ticker 75s linear infinite;will-change:transform}
+    .ticker-wrap:hover .ticker,.ticker-wrap:focus-within .ticker,.ticker-wrap.paused .ticker{animation-play-state:paused}
+    @keyframes ticker{to{transform:translateX(-50%)}}
+    .review{width:340px;flex:none;background:#fff;border:1px solid var(--line);border-radius:var(--radius);padding:1.35rem 1.4rem;box-shadow:var(--shadow-sm);display:flex;flex-direction:column;gap:.75rem}
+    @media (max-width:420px){.review{width:300px}}
+    .review-head{display:flex;align-items:center;gap:.7rem}
+    .avatar{width:40px;height:40px;border-radius:50%;background:var(--navy);color:#fff;font-weight:800;display:grid;place-items:center;flex:none;font-size:1rem;position:relative}
+    .avatar::after{content:"G";position:absolute;right:-4px;bottom:-4px;width:18px;height:18px;border-radius:50%;background:#fff;color:#4285f4;font-size:.7rem;font-weight:800;display:grid;place-items:center;box-shadow:0 1px 3px rgba(0,0,0,.25);font-family:Arial,sans-serif}
+    .review cite{font-style:normal;font-weight:800;color:var(--navy);font-size:.95rem;line-height:1.2;display:block}
+    .review cite small{display:block;font-weight:600;color:var(--muted);font-size:.75rem;margin-top:.1rem}
+    .review blockquote{margin:0;font-size:.93rem;color:var(--ink);line-height:1.55;display:-webkit-box;-webkit-line-clamp:7;-webkit-box-orient:vertical;overflow:hidden}
+    .ticker-ctl{display:flex;justify-content:center;margin-top:.5rem}
+    .ticker-ctl button{display:inline-flex;align-items:center;gap:.4rem;min-height:40px;padding:.4rem .9rem;border-radius:999px;border:1.5px solid var(--line);background:#fff;color:var(--muted);font:inherit;font-size:.82rem;font-weight:700;cursor:pointer}
+    .ticker-ctl button:hover{color:var(--navy);border-color:var(--navy)}
+    @media (prefers-reduced-motion:reduce){
+      .ticker{animation:none;width:auto;overflow-x:auto;scroll-snap-type:x mandatory;padding-bottom:.5rem}
+      .ticker .review{scroll-snap-align:start}
+      .ticker-wrap{-webkit-mask-image:none;mask-image:none}
+      .ticker-ctl,.ticker [aria-hidden="true"]{display:none}
+    }
 
     /* Final offer + location */
     .final{background:linear-gradient(135deg,var(--navy-deep),var(--navy) 60%,#0d5a86);color:#fff}
@@ -492,29 +508,128 @@
   <!-- 5. REVIEWS -->
   <section class="section" aria-labelledby="reviews-title">
     <div class="container">
-      <div class="section-head reveal">
-        <span class="eyebrow">Patient Reviews</span>
+      <div class="section-head reveal" style="margin-bottom:1.5rem">
+        <span class="eyebrow">Patient Experiences</span>
         <h2 id="reviews-title" style="margin-top:.8rem">See Real Patient Reviews</h2>
-        <p>What Crown Dental Care patients say about Dr. T and the team.</p>
+        <p>What Crown Dental Care patients say about the team and their experience.</p>
       </div>
-      <div class="google-badge reveal">
-        <img src="assets/img/google-5-stars-320.webp" width="320" height="199" alt="Google rating: 5.0 out of 5 stars" loading="lazy" decoding="async">
+      <div class="center reveal">
+        <a class="rating" href="https://maps.google.com/?cid=7030309343312977209" target="_blank" rel="noopener" aria-label="Google rating 4.9 out of 5 from 696 reviews">
+          <span class="g-word" aria-hidden="true"><span>G</span><span>o</span><span>o</span><span>g</span><span>l</span><span>e</span></span>
+          <span class="score">4.9</span>
+          <span class="stars" style="--fill:98%" aria-hidden="true">★★★★★</span>
+          <span class="count">(696 reviews)</span>
+        </a>
       </div>
-      <div class="reviews-grid reveal">
-        <figure class="team-card" style="margin:0">
-          <img src="assets/img/team-800.webp" srcset="assets/img/team-480.webp 480w, assets/img/team-800.webp 800w, assets/img/team-1200.webp 1200w" sizes="(min-width: 860px) 34vw, 92vw" width="800" height="533" alt="The Crown Dental Care team gathered in the Rockville office" loading="lazy" decoding="async">
-          <figcaption>The Crown Dental Care team — Rockville, MD</figcaption>
-        </figure>
-        <article class="review">
-          <div class="stars" role="img" aria-label="5 out of 5 stars">★★★★★</div>
-          <blockquote>“Never had a bad experience here. The staff are always so friendly and the office itself and its equipment is very up-to-date, modern, and clean. Dr. T is very gentle and nice and takes the time to answer your questions.”</blockquote>
-          <cite>Winnie T.<small>Crown Dental Care patient</small></cite>
-        </article>
-        <article class="review">
-          <div class="stars" role="img" aria-label="5 out of 5 stars">★★★★★</div>
-          <blockquote>“Crown Dental is by far the best dentist I've been to. Dr. T always takes such good care of us. My 4 year old loved seeing Linda again, our visit was so personable, Linda and Dr. T remembered her from her very first visit. Highly recommend Crown Dental Care!”</blockquote>
-          <cite>Alexandria T.<small>Crown Dental Care patient</small></cite>
-        </article>
+      <div class="ticker-wrap reveal" id="ticker-wrap">
+        <div class="ticker" id="ticker">
+          <article class="review">
+            <div class="review-head"><span class="avatar" aria-hidden="true">M</span><cite>Mike C<small>Google review</small></cite></div>
+            <span class="stars" role="img" aria-label="5 out of 5 stars">★★★★★</span>
+            <blockquote>“I started going to Crown Dental Care back in May and it has been amazing ever since. Their office is very modern and comfortable. Typically I have never liked going to the dentist, but everyone there is very nice and provide you with all the info you need. Danielle, Angel and Jessica at the front desk are welcoming and friendly. I've had a few appointments with Veronica and she has been helpful and informative each time. I would highly recommend this place to anyone.”</blockquote>
+          </article>
+          <article class="review">
+            <div class="review-head"><span class="avatar" aria-hidden="true">J</span><cite>josh dinkin<small>Google review</small></cite></div>
+            <span class="stars" role="img" aria-label="5 out of 5 stars">★★★★★</span>
+            <blockquote>“Best dentist I've ever been to, by far. Great staff, great service!”</blockquote>
+          </article>
+          <article class="review">
+            <div class="review-head"><span class="avatar" aria-hidden="true">A</span><cite>Aly Paredes<small>Google review</small></cite></div>
+            <span class="stars" role="img" aria-label="5 out of 5 stars">★★★★★</span>
+            <blockquote>“Dr. Nateghi describes procedures and answers questions thoroughly. He and all the assistants that have treated me always take steps to ensure patients are comfortable. The office is modern, everyone there is friendly, and I’ve never felt so confident that I’m getting quality care.”</blockquote>
+          </article>
+          <article class="review">
+            <div class="review-head"><span class="avatar" aria-hidden="true">W</span><cite>Winnie T.<small>Google review</small></cite></div>
+            <span class="stars" role="img" aria-label="5 out of 5 stars">★★★★★</span>
+            <blockquote>“Never had a bad experience here. The staff are always so friendly and the office itself and its equipment is very up-to-date, modern, and clean. Dr. T is very gentle and nice and takes the time to answer your questions.”</blockquote>
+          </article>
+          <article class="review">
+            <div class="review-head"><span class="avatar" aria-hidden="true">D</span><cite>David Cruz<small>Google review</small></cite></div>
+            <span class="stars" role="img" aria-label="5 out of 5 stars">★★★★★</span>
+            <blockquote>“I came to crown dental from a referral. They are great. They use cunning edge technology and they are very professional. The front desk is also very kind and polite, especially Angel”</blockquote>
+          </article>
+          <article class="review">
+            <div class="review-head"><span class="avatar" aria-hidden="true">I</span><cite>ivia young<small>Google review</small></cite></div>
+            <span class="stars" role="img" aria-label="5 out of 5 stars">★★★★★</span>
+            <blockquote>“When coming to my appointments, I walk out with a smile! Danielle is awesome at making you feel welcomed as soon as you come through the door, always happy. Niya and Dr. Nateghi are a great team, on the same page and both always make sure your never in pain. It definitely shows that they care not only about the job but their patience. Hands down Dr. Nateghi is the best Dentist I've been to and will continue to see! Danielle, keep doing what you are doing by making sure people feel welcomed and Niya keep showing people that you care about what your doing and how they feel! Best team ever!”</blockquote>
+          </article>
+          <article class="review">
+            <div class="review-head"><span class="avatar" aria-hidden="true">C</span><cite>Carlita Miller<small>Google review</small></cite></div>
+            <span class="stars" role="img" aria-label="5 out of 5 stars">★★★★★</span>
+            <blockquote>“Crown Dental is a great dental office. The front desk staff Daniel and Dr.Nateghi were very helpful and kind. They all took their time explaining things to me and while working on my teeth. My daughter also comes to this office for her routine cleanings and she always feels comfortable. I recommend this office to anyone that asks for a new dental practice.”</blockquote>
+          </article>
+          <article class="review">
+            <div class="review-head"><span class="avatar" aria-hidden="true">A</span><cite>Alexandria T.<small>Google review</small></cite></div>
+            <span class="stars" role="img" aria-label="5 out of 5 stars">★★★★★</span>
+            <blockquote>“Crown Dental is by far the best dentist I've been to. Dr. T always takes such good care of us. My 4 year old loved seeing Linda again, our visit was so personable, Linda and Dr. T remembered her from her very first visit. Highly recommend Crown Dental Care!”</blockquote>
+          </article>
+          <article class="review">
+            <div class="review-head"><span class="avatar" aria-hidden="true">Y</span><cite>Yum “Icyfire2013”<small>Google review</small></cite></div>
+            <span class="stars" role="img" aria-label="5 out of 5 stars">★★★★★</span>
+            <blockquote>“I've been coming here since they first opened. The staff is still welcoming and I had a good experience with my cleaning and filling this time around. I do recommend coming here for your dental services.”</blockquote>
+          </article>
+          <article class="review">
+            <div class="review-head"><span class="avatar" aria-hidden="true">K</span><cite>Ken Lattimore<small>Google review</small></cite></div>
+            <span class="stars" role="img" aria-label="5 out of 5 stars">★★★★★</span>
+            <blockquote>“I recently started the process for dental implants and couldn’t be happier. The staff is wonderful and the process was throughly explained. The best part is that thanks to their healing treatment I experienced no pain at all. Thank you!”</blockquote>
+          </article>
+          <article class="review" aria-hidden="true">
+            <div class="review-head"><span class="avatar" aria-hidden="true">M</span><cite>Mike C<small>Google review</small></cite></div>
+            <span class="stars" role="img" aria-label="5 out of 5 stars">★★★★★</span>
+            <blockquote>“I started going to Crown Dental Care back in May and it has been amazing ever since. Their office is very modern and comfortable. Typically I have never liked going to the dentist, but everyone there is very nice and provide you with all the info you need. Danielle, Angel and Jessica at the front desk are welcoming and friendly. I've had a few appointments with Veronica and she has been helpful and informative each time. I would highly recommend this place to anyone.”</blockquote>
+          </article>
+          <article class="review" aria-hidden="true">
+            <div class="review-head"><span class="avatar" aria-hidden="true">J</span><cite>josh dinkin<small>Google review</small></cite></div>
+            <span class="stars" role="img" aria-label="5 out of 5 stars">★★★★★</span>
+            <blockquote>“Best dentist I've ever been to, by far. Great staff, great service!”</blockquote>
+          </article>
+          <article class="review" aria-hidden="true">
+            <div class="review-head"><span class="avatar" aria-hidden="true">A</span><cite>Aly Paredes<small>Google review</small></cite></div>
+            <span class="stars" role="img" aria-label="5 out of 5 stars">★★★★★</span>
+            <blockquote>“Dr. Nateghi describes procedures and answers questions thoroughly. He and all the assistants that have treated me always take steps to ensure patients are comfortable. The office is modern, everyone there is friendly, and I’ve never felt so confident that I’m getting quality care.”</blockquote>
+          </article>
+          <article class="review" aria-hidden="true">
+            <div class="review-head"><span class="avatar" aria-hidden="true">W</span><cite>Winnie T.<small>Google review</small></cite></div>
+            <span class="stars" role="img" aria-label="5 out of 5 stars">★★★★★</span>
+            <blockquote>“Never had a bad experience here. The staff are always so friendly and the office itself and its equipment is very up-to-date, modern, and clean. Dr. T is very gentle and nice and takes the time to answer your questions.”</blockquote>
+          </article>
+          <article class="review" aria-hidden="true">
+            <div class="review-head"><span class="avatar" aria-hidden="true">D</span><cite>David Cruz<small>Google review</small></cite></div>
+            <span class="stars" role="img" aria-label="5 out of 5 stars">★★★★★</span>
+            <blockquote>“I came to crown dental from a referral. They are great. They use cunning edge technology and they are very professional. The front desk is also very kind and polite, especially Angel”</blockquote>
+          </article>
+          <article class="review" aria-hidden="true">
+            <div class="review-head"><span class="avatar" aria-hidden="true">I</span><cite>ivia young<small>Google review</small></cite></div>
+            <span class="stars" role="img" aria-label="5 out of 5 stars">★★★★★</span>
+            <blockquote>“When coming to my appointments, I walk out with a smile! Danielle is awesome at making you feel welcomed as soon as you come through the door, always happy. Niya and Dr. Nateghi are a great team, on the same page and both always make sure your never in pain. It definitely shows that they care not only about the job but their patience. Hands down Dr. Nateghi is the best Dentist I've been to and will continue to see! Danielle, keep doing what you are doing by making sure people feel welcomed and Niya keep showing people that you care about what your doing and how they feel! Best team ever!”</blockquote>
+          </article>
+          <article class="review" aria-hidden="true">
+            <div class="review-head"><span class="avatar" aria-hidden="true">C</span><cite>Carlita Miller<small>Google review</small></cite></div>
+            <span class="stars" role="img" aria-label="5 out of 5 stars">★★★★★</span>
+            <blockquote>“Crown Dental is a great dental office. The front desk staff Daniel and Dr.Nateghi were very helpful and kind. They all took their time explaining things to me and while working on my teeth. My daughter also comes to this office for her routine cleanings and she always feels comfortable. I recommend this office to anyone that asks for a new dental practice.”</blockquote>
+          </article>
+          <article class="review" aria-hidden="true">
+            <div class="review-head"><span class="avatar" aria-hidden="true">A</span><cite>Alexandria T.<small>Google review</small></cite></div>
+            <span class="stars" role="img" aria-label="5 out of 5 stars">★★★★★</span>
+            <blockquote>“Crown Dental is by far the best dentist I've been to. Dr. T always takes such good care of us. My 4 year old loved seeing Linda again, our visit was so personable, Linda and Dr. T remembered her from her very first visit. Highly recommend Crown Dental Care!”</blockquote>
+          </article>
+          <article class="review" aria-hidden="true">
+            <div class="review-head"><span class="avatar" aria-hidden="true">Y</span><cite>Yum “Icyfire2013”<small>Google review</small></cite></div>
+            <span class="stars" role="img" aria-label="5 out of 5 stars">★★★★★</span>
+            <blockquote>“I've been coming here since they first opened. The staff is still welcoming and I had a good experience with my cleaning and filling this time around. I do recommend coming here for your dental services.”</blockquote>
+          </article>
+          <article class="review" aria-hidden="true">
+            <div class="review-head"><span class="avatar" aria-hidden="true">K</span><cite>Ken Lattimore<small>Google review</small></cite></div>
+            <span class="stars" role="img" aria-label="5 out of 5 stars">★★★★★</span>
+            <blockquote>“I recently started the process for dental implants and couldn’t be happier. The staff is wonderful and the process was throughly explained. The best part is that thanks to their healing treatment I experienced no pain at all. Thank you!”</blockquote>
+          </article>
+        </div>
+      </div>
+      <div class="ticker-ctl reveal">
+        <button type="button" id="ticker-toggle" aria-pressed="false" aria-controls="ticker">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M7 5h4v14H7zM13 5h4v14h-4z"/></svg>
+          <span>Pause reviews</span>
+        </button>
       </div>
     </div>
   </section>
@@ -694,6 +809,15 @@
     new IntersectionObserver(function (en) { formVisible = en[0].isIntersecting; update(); }, { threshold: 0.15 }).observe(formWrap);
     new IntersectionObserver(function (en) { pastHero = !en[0].isIntersecting && en[0].boundingClientRect.top < 0; update(); }, { threshold: 0 }).observe(hero);
   }
+
+  /* ---- Reviews ticker pause/play ---- */
+  var tWrap = $("#ticker-wrap"), tBtn = $("#ticker-toggle");
+  if (tWrap && tBtn) tBtn.addEventListener("click", function () {
+    var paused = tWrap.classList.toggle("paused");
+    tBtn.setAttribute("aria-pressed", String(paused));
+    tBtn.querySelector("span").textContent = paused ? "Play reviews" : "Pause reviews";
+    tBtn.querySelector("path").setAttribute("d", paused ? "M8 5v14l11-7z" : "M7 5h4v14H7zM13 5h4v14h-4z");
+  });
 
   /* ---- Subtle reveal on scroll ---- */
   var els = $$(".reveal");
